@@ -1,0 +1,19 @@
+const mongoose = require("mongoose");
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://basantkumar72580_db_user:XcJ9emutFYOw0lCU@todo.7pymhia.mongodb.net/?retryWrites=true&w=majority&appName=todo",
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
+    console.log("MongoDB connected ✅");
+  } catch (error) {
+    console.error("MongoDB connection failed ❌", error.message);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
