@@ -3,29 +3,32 @@ import axios from "axios";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 
+
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  // Read (Get all tasks from backend)
+  //  Read (Get all tasks from backend)
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/tasks")
+      .get("https://mern-todo-t6wy.onrender.com/api/tasks")
       .then((res) => setTasks(res.data))
       .catch((err) => console.error(err));
   }, []);
 
-  // Create (Add new task)
+  //  Create (Add new task)
   const addTask = (title) => {
     axios
-      .post("http://localhost:5000/api/tasks", { title })
+      .post("https://mern-todo-t6wy.onrender.com/api/tasks", { title })
       .then((res) => setTasks([...tasks, res.data]))
       .catch((err) => console.error(err));
   };
 
-  //  Update (Toggle task complete)
+  // Update (Toggle task complete)
   const toggleTask = (id, completed) => {
     axios
-      .put(`http://localhost:5000/api/tasks/${id}`, { completed: !completed })
+      .put(`https://mern-todo-t6wy.onrender.com/api/tasks/${id}`, {
+        completed: !completed,
+      })
       .then((res) =>
         setTasks(tasks.map((t) => (t._id === id ? res.data : t)))
       )
@@ -35,31 +38,35 @@ function App() {
   //  Update (Edit task title)
   const updateTask = (id, title) => {
     axios
-      .put(`http://localhost:5000/api/tasks/${id}`, { title })
+      .put(`https://mern-todo-t6wy.onrender.com/api/tasks/${id}`, { title })
       .then((res) =>
         setTasks(tasks.map((t) => (t._id === id ? res.data : t)))
       )
       .catch((err) => console.error(err));
   };
 
-  // Delete (Remove a task)
+  //  Delete (Remove a task)
   const deleteTask = (id) => {
     axios
-      .delete(`http://localhost:5000/api/tasks/${id}`)
+      .delete(`https://mern-todo-t6wy.onrender.com/api/tasks/${id}`)
       .then(() => setTasks(tasks.filter((t) => t._id !== id)))
       .catch((err) => console.error(err));
   };
 
   return (
-    <div className="app">
-      <h1>📝 To-Do List</h1>
-      <TaskForm addTask={addTask} />
-      <TaskList
-        tasks={tasks}
-        toggleTask={toggleTask}
-        updateTask={updateTask}
-        deleteTask={deleteTask}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center px-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-6 sm:p-10 w-full max-w-2xl">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-center text-gray-800 mb-6">
+          📝 To-Do List
+        </h1>
+        <TaskForm addTask={addTask} />
+        <TaskList
+          tasks={tasks}
+          toggleTask={toggleTask}
+          updateTask={updateTask}
+          deleteTask={deleteTask}
+        />
+      </div>
     </div>
   );
 }
